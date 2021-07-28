@@ -2,6 +2,8 @@
 // Ajouter database mongoDB : npm install --save mongoose
 
 const express = require('express');
+const dotendv = require('dotenv').config()
+const helmet = require("helmet");
 const bodyParser = require('body-parser'); //npm install --save body-parser
 const mongoose = require('mongoose');
 const path = require('path');
@@ -23,12 +25,14 @@ app.use((req, res, next) => { // middleware permettant l'accès à l'api, contou
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // méthodes autorisées
     next();
   });
+  
+  app.use(helmet());
 
   app.use(bodyParser.json());
 
-//app.use('/images', express.static(path.join(__dirname, 'images'))); // indique à express qu'il faut gérer la ressources images comme un dossier statique
+app.use('/images', express.static(path.join(__dirname, 'images'))); // indique à express qu'il faut gérer la ressources images comme un dossier statique
 
-app.use('/api/sauce', sauceRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', userRoutes); // Authentification login et signup
+app.use('/api/sauces', sauceRoutes); // Obtenir toutes les sauces
 
 module.exports = app; // export pour utilisation par server
