@@ -2,6 +2,7 @@
 // Ajouter database mongoDB : npm install --save mongoose
 
 const express = require('express');
+const dotendv = require('dotenv').config()
 const helmet = require("helmet");
 const bodyParser = require('body-parser'); //npm install --save body-parser
 const mongoose = require('mongoose');
