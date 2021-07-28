@@ -4,18 +4,21 @@ const rateLimit = require("express-rate-limit");
 // see https://expressjs.com/en/guide/behind-proxies.html
 // app.set('trust proxy', 1);
 
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100
+exports.apiLimiter = rateLimit({
+windowMs: 15 * 60 * 1000, // 15 minutes
+max: 100,
+message: "Vous avez crée ou modifié trop de sauces en peu de temps, veuillez patienter 15 minutes avant de réessayer.",
 });
-app.use("/api/", apiLimiter);
 
-const createAccountLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour window
+exports.loginLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 20,
+  message: "Vous vous êtes connectés trop de fois en peu de temps, veuillez réessayer dans 5 minutes.",
+  });
+
+
+exports.createAccountLimiter = rateLimit({
+  windowMs: 30 * 60 * 1000, // 30min
   max: 5, // start blocking after 5 requests
-  message:
-    "Vous avez crée trop de comptes avec la même adresse IP, merci d'attendre 1h pour réessayer."
-});
-app.post("/create-account", createAccountLimiter, function(req, res) {
-  //...
+  message: "Vous avez crée trop de comptes différents avec la même adresse IP, merci d'attendre 30 minutes pour réessayer.",
 });
