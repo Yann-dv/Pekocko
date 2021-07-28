@@ -5,11 +5,11 @@ const auth = require('../middleware/auth'); // ajout du middleware d'auth pour p
 const multer = require('../middleware/multer-config');
 
 
-/*router.post('/', auth, multer, sauceCtrl.createThing);
-router.put('/:id', auth, multer, sauceCtrl.modifyThing); 
-router.delete('/:id', auth, sauceCtrl.deleteThing);
-router.get('/:id', auth, sauceCtrl.getOneThing);
-router.get('/', auth, sauceCtrl.getAllThings);*/
-router.get('/', sauceCtrl.createThing);
+router.post('/', auth, multer, sauceCtrl.createSauce);
+router.post('/:id/like', auth, )
+router.put('/:id', auth, multer, sauceCtrl.modifySauce); 
+router.delete('/:id', auth, sauceCtrl.deleteSauce);
+router.get('/:id', auth, sauceCtrl.getOneSauce);
+router.get('/', auth, sauceCtrl.getAllSauces);
 
 module.exports = router;

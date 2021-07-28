@@ -26,9 +26,9 @@ app.use((req, res, next) => { // middleware permettant l'accès à l'api, contou
 
   app.use(bodyParser.json());
 
-//app.use('/images', express.static(path.join(__dirname, 'images'))); // indique à express qu'il faut gérer la ressources images comme un dossier statique
+app.use('/images', express.static(path.join(__dirname, 'images'))); // indique à express qu'il faut gérer la ressources images comme un dossier statique
 
-app.use('/api/sauce', sauceRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', userRoutes); // Authentification login et signup
+app.use('/api/sauces', sauceRoutes); // Obtenir toutes les sauces
 
 module.exports = app; // export pour utilisation par server
