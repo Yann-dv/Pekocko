@@ -2,6 +2,7 @@
 // Ajouter database mongoDB : npm install --save mongoose
 
 const express = require('express');
+const helmet = require("helmet");
 const bodyParser = require('body-parser'); //npm install --save body-parser
 const mongoose = require('mongoose');
 const path = require('path');
@@ -23,6 +24,8 @@ app.use((req, res, next) => { // middleware permettant l'accès à l'api, contou
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // méthodes autorisées
     next();
   });
+  
+  app.use(helmet());
 
   app.use(bodyParser.json());
 

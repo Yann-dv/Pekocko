@@ -52,7 +52,7 @@ exports.getAllSauces =  (req, res, next) => {
 
 
 exports.likes = (req, res, next) => {
-  console.log("hi")
-   .then(userId => res.status(200).json(req.userId))
-   .catch(error => res.status(400).json({error}));
+  //console.log("hi")
+   //.then(userId => res.status(200).json(req.userId))
+   //.catch(error => res.status(400).json({error}));
 };
