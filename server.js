@@ -1,7 +1,7 @@
 const http = require('http'); // package http de node -> permet de créer le server
 const app = require('./app'); // import app
 
-const normalizePort = val => { // renvoie un port valide, qu'il soit fourni sous la forme 
+const normalizePort = val => { // renvoie un port valide
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {

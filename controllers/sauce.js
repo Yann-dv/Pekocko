@@ -49,3 +49,10 @@ exports.getAllSauces =  (req, res, next) => {
   .then(sauces => res.status(200).json(sauces))
   .catch(error => res.status(400).json({error}));
 };
+
+
+exports.likes = (req, res, next) => {
+  console.log("hi")
+   .then(userId => res.status(200).json(req.userId))
+   .catch(error => res.status(400).json({error}));
+};
