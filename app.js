@@ -11,7 +11,7 @@ const path = require('path');
 const sauceRoutes = require ('./routes/sauce');
 const userRoutes = require ('./routes/user');
 
-mongoose.connect('mongodb+srv://Yann-dev:yann-dev@cluster0.6msdf.mongodb.net/Pekocko?retryWrites=true&w=majority',
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER_PASS}@cluster0.6msdf.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))

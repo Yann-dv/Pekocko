@@ -13,7 +13,7 @@ message: "Vous avez crée ou modifié trop de sauces en peu de temps, veuillez p
 exports.loginLimiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
   max: 20,
-  message: "Vous vous êtes connectés trop de fois en peu de temps, veuillez réessayer dans 5 minutes.",
+  message: "Vous vous êtes connectés trop de fois en peu de temps, veuillez réessayer dans 5 minutes."
   });
 
 
