@@ -103,12 +103,26 @@ exports.getAllSauces = function (req, res, next) {
 };
 
 exports.likes = function (req, res, next) {
-  var user = JSON.stringify(req.body.userId);
+  var user = req.body.userId;
   var likeValue = req.body.like;
+  var alreadyLiked = Sauce.findOne({
+    _id: req.params.id
+  }, {
+    usersLiked: user
+  });
+  var alreadyDisliked = Sauce.findOne({
+    _id: req.params.id
+  }, {
+    usersDisliked: user
+  });
+  /*sauces.find(
+    { results: { $elemMatch: {_id: req.params.id, score: { $gte: 8 } } } }
+  )*/
+
   Sauce.findOne({
     _id: req.params.id
   }).then(function () {
-    if (likeValue == -1) // je n'aime pas
+    if (likeValue == -1 && !alreadyDisliked) // je n'aime pas
       {
         Sauce.updateOne({
           _id: req.params.id
@@ -116,8 +130,11 @@ exports.likes = function (req, res, next) {
           $inc: {
             dislikes: +1
           },
-          $push: {
+          $addToSet: {
             usersDisliked: user
+          },
+          $pull: {
+            usersLiked: user
           },
           _id: req.params.id
         }).then(function () {
@@ -129,13 +146,19 @@ exports.likes = function (req, res, next) {
             message: 'Dislike non ajouté'
           });
         });
-      } else if (likeValue == 1) // j'aime
+      } else if (likeValue == 1 && !alreadyLiked) // j'aime
       {
         Sauce.updateOne({
           _id: req.params.id
         }, {
           $inc: {
             likes: +1
+          },
+          $addToSet: {
+            usersLiked: user
+          },
+          $pull: {
+            usersDisliked: user
           },
           _id: req.params.id
         }).then(function () {
@@ -147,7 +170,13 @@ exports.likes = function (req, res, next) {
             message: 'Like non ajouté'
           });
         });
-      } else {// neutre
+      } else if (likeValue == 0) {
+      /*if({_id: req.params.id} && usersDisliked) {
+        Sauce.updateOne({_id: req.params.id}, {$inc: {dislikes: -1}, $pull: {usersDisliked: user}, _id: req.params.id})
+        }
+      else if({_id: req.params.id} && usersLiked) {
+        Sauce.updateOne({_id: req.params.id}, {$inc: {likes: -1}, $pull: {usersLiked: user}, _id: req.params.id})
+      }*/
     }
   }).then(function () {
     return res.status('200').json({

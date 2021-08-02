@@ -52,23 +52,36 @@ exports.getAllSauces =  (req, res, next) => {
 
 
 exports.likes = (req, res, next) => {
-  const user = JSON.stringify(req.body.userId);
+  const user = req.body.userId;
   const likeValue = req.body.like;
+  const alreadyLiked = Sauce.findOne({_id: req.params.id}, {usersLiked: user});
+  const alreadyDisliked = Sauce.findOne({_id: req.params.id}, {usersDisliked: user});
+  /*sauces.find(
+    { results: { $elemMatch: {_id: req.params.id, score: { $gte: 8 } } } }
+ )*/
   Sauce.findOne({ _id: req.params.id})
+
   .then(() => {
-    if (likeValue == -1) // je n'aime pas
+    if (likeValue == -1 && !alreadyDisliked) // je n'aime pas
     {
-      Sauce.updateOne({_id: req.params.id}, {$inc: {dislikes: +1},$push: {usersDisliked: user}, _id: req.params.id})
+      Sauce.updateOne({_id: req.params.id}, {$inc: {dislikes: +1},$addToSet: {usersDisliked: user}, $pull: {usersLiked: user}, _id: req.params.id})
       .then(() => res.status('200').json({message : 'Dislike ajouté'}))
       .catch(error => res.status(400).json({message : 'Dislike non ajouté'}));
     }
-    else if(likeValue == 1) // j'aime
+    else if(likeValue == 1 && !alreadyLiked) // j'aime
     {
-      Sauce.updateOne({_id: req.params.id}, {$inc: {likes: +1} , _id: req.params.id})
+      Sauce.updateOne({_id: req.params.id}, {$inc: {likes: +1},$addToSet: {usersLiked: user}, $pull: {usersDisliked: user}, _id: req.params.id})
       .then(() => res.status('200').json({message : 'Like ajouté'}))
       .catch(error => res.status(400).json({message : 'Like non ajouté'}));
     }
-    else { // neutre
+    else if(likeValue == 0)
+    {
+        /*if({_id: req.params.id} && usersDisliked) {
+          Sauce.updateOne({_id: req.params.id}, {$inc: {dislikes: -1}, $pull: {usersDisliked: user}, _id: req.params.id})
+          }
+        else if({_id: req.params.id} && usersLiked) {
+          Sauce.updateOne({_id: req.params.id}, {$inc: {likes: -1}, $pull: {usersLiked: user}, _id: req.params.id})
+        }*/
     }
   })
     .then(() => res.status('200').json({message : 'Mise à jours des likes et dislikes'}))
