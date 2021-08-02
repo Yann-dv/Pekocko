@@ -52,12 +52,13 @@ exports.getAllSauces =  (req, res, next) => {
 
 
 exports.likes = (req, res, next) => {
+  const user = JSON.stringify(req.body.userId);
   const likeValue = req.body.like;
   Sauce.findOne({ _id: req.params.id})
   .then(() => {
     if (likeValue == -1) // je n'aime pas
     {
-      Sauce.updateOne({_id: req.params.id}, {$inc: {dislikes: +1} , _id: req.params.id})
+      Sauce.updateOne({_id: req.params.id}, {$inc: {dislikes: +1},$push: {usersDisliked: user}, _id: req.params.id})
       .then(() => res.status('200').json({message : 'Dislike ajouté'}))
       .catch(error => res.status(400).json({message : 'Dislike non ajouté'}));
     }
@@ -68,7 +69,6 @@ exports.likes = (req, res, next) => {
       .catch(error => res.status(400).json({message : 'Like non ajouté'}));
     }
     else { // neutre
-
     }
   })
     .then(() => res.status('200').json({message : 'Mise à jours des likes et dislikes'}))

@@ -103,6 +103,7 @@ exports.getAllSauces = function (req, res, next) {
 };
 
 exports.likes = function (req, res, next) {
+  var user = JSON.stringify(req.body.userId);
   var likeValue = req.body.like;
   Sauce.findOne({
     _id: req.params.id
@@ -114,6 +115,9 @@ exports.likes = function (req, res, next) {
         }, {
           $inc: {
             dislikes: +1
+          },
+          $push: {
+            usersDisliked: user
           },
           _id: req.params.id
         }).then(function () {
