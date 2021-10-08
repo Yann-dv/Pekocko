@@ -12,7 +12,7 @@ Création d'une API sécurisée pour le site d'avis gastronomiques Pekocko.
   
 * Spécifications techniques : 
   - Technologies : server Node.js, framework Express, MongoDB, packe mongoose pour toutes les opérations avec la DB.
-  - Respect du RGPC et recommandations de l'OWASP
+  - Respect du RGPD et recommandations de l'OWASP
   - Mot de passe utilisateur chiffré (stockée chiffré dans la db)
   - 2 droits administrateurs : admin et user
   - Authentification renforcée sur les routes
