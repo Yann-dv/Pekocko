@@ -19,6 +19,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER_PAS
 
 const app = express();
 
+
 app.use((req, res, next) => { // middleware permettant l'accès à l'api, contournant la sécurité par défaut CORS
     res.setHeader('Access-Control-Allow-Origin', '*'); // accès toutes origines
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); // headers autorisés
